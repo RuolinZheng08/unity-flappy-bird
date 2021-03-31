@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class RepeatBackground : MonoBehaviour
 {
-    private Vector3 startPos;
-    private float repeatWidth;
+    Vector3 startPos;
+    float repeatWidth;
 
     void Start()
     {
         startPos = transform.position;
         repeatWidth = GetComponent<SpriteRenderer>().bounds.size.x / 2;
-        Debug.Log(repeatWidth);
     }
 
     void Update()

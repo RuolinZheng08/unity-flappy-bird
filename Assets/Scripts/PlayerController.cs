@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool isGameOver; // read by all other scripts
+
     float yBoundary = 8;
+    float startForce = 5;
     [SerializeField] float upForce;
     Rigidbody playerRb;
 
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        // a small bump at the start
+        playerRb.AddForce(Vector3.up * startForce);
     }
 
     void Update()
@@ -23,6 +28,13 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Space)) {
             playerRb.AddForce(Vector3.up * upForce);
+        }
+    }
+
+    void OnCollisionEnter(Collision collision) {
+        isGameOver = true;
+        if (collision.gameObject.CompareTag("Obstacle")) {
+            Destroy(collision.gameObject);
         }
     }
 }

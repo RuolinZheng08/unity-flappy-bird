@@ -5,11 +5,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public bool isGameOver; // read by all other scripts
+    public ParticleSystem explosionParticle;
+    public AudioClip explosionSound;
 
     float yBoundary = 8;
     float startForce = 5;
     [SerializeField] float upForce;
     Rigidbody playerRb;
+    AudioSource playerAudio;
 
     void Start()
     {
@@ -20,6 +23,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (isGameOver) {
+            return;
+        }
         // keep player from flying too high
         if (transform.position.y > yBoundary) {
             transform.position = new Vector3(transform.position.x, yBoundary, transform.position.z);
@@ -32,9 +38,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision collision) {
-        isGameOver = true;
         if (collision.gameObject.CompareTag("Obstacle")) {
+            explosionParticle.Play();
+            isGameOver = true;
             Destroy(collision.gameObject);
-        }
+            Destroy(gameObject);
+        };
     }
 }

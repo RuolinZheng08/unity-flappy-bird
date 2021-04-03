@@ -9,8 +9,8 @@ public class SpawnManager : MonoBehaviour
     float spawnInterval = 1;
     float xSpawnPos = 20;
     float zSpawnPos = -2;
-    float ySpawnMin = 5;
-    float ySpawnMax = 8;
+    [SerializeField] float ySpawnMin;
+    [SerializeField] float ySpawnMax;
     PlayerController playerController;
 
     void Start() {
@@ -25,8 +25,13 @@ public class SpawnManager : MonoBehaviour
         float ySpawnPos = Random.Range(ySpawnMin, ySpawnMax);
         // first flip a coin to determine if the object comes from the top or bottom
         bool bottom  = (Random.value > 0.5f);
-        if (bottom) { // negate
+        if (bottom) { // negate y
             ySpawnPos = -ySpawnPos;
+            Quaternion spawnRotation = Quaternion.Euler(0, 0, 0);
+            obstaclePrefab.transform.GetChild(0).gameObject.transform.rotation = spawnRotation;
+        } else { // rorate z by 180
+            Quaternion spawnRotation = Quaternion.Euler(0, 0, 180);
+            obstaclePrefab.transform.GetChild(0).gameObject.transform.rotation = spawnRotation;
         }
         Vector3 spawnPos = new Vector3(xSpawnPos, ySpawnPos, zSpawnPos);
         Instantiate(obstaclePrefab, spawnPos, obstaclePrefab.transform.rotation);

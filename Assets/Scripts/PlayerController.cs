@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        playerAudio = GetComponent<AudioSource>();
         playerRb = GetComponent<Rigidbody>();
         // a small bump at the start
         playerRb.AddForce(Vector3.up * startForce);
@@ -40,9 +41,12 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Obstacle")) {
             explosionParticle.Play();
+            playerAudio.PlayOneShot(explosionSound);
             isGameOver = true;
             Destroy(collision.gameObject);
-            Destroy(gameObject);
+            // stop bird flapping animation
+            Animator anim = gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>();
+            anim.enabled = false;
         };
     }
 }

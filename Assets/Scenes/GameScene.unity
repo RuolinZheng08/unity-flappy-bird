@@ -154,6 +154,7 @@ MonoBehaviour:
     type: 3}
   isGameActive: 0
   scoreText: {fileID: 2044189027}
+  highestScoreText: {fileID: 1317586562}
   gameOverScreen: {fileID: 639891002}
   titleScreen: {fileID: 1269144143}
   ySpawnMin: 8
@@ -437,7 +438,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -125, y: 269.8}
+  m_AnchoredPosition: {x: -157, y: 269.8}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &434133999
@@ -459,7 +460,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press space bar to fly higher
+  m_text: Press the space bar to fly higher
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 31706cb8c8e1e4d99bb4d0a39c952ca2, type: 2}
   m_sharedMaterial: {fileID: 21066439983934862, guid: 31706cb8c8e1e4d99bb4d0a39c952ca2,
@@ -552,7 +553,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &639891003
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1489,7 +1490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1269144144
 RectTransform:
   m_ObjectHideFlags: 0

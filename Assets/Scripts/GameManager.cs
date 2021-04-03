@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     // UI
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI highestScoreText;
     public GameObject gameOverScreen; // gameOverText and restartButton
     public GameObject titleScreen; // titleText and startButton
 
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float ySpawnMax;
 
     int score;
+    int highestScore;
     int scoreIncrement = 100; // 100 points for each second survived
 
     public void StartGame() {
@@ -41,6 +43,12 @@ public class GameManager : MonoBehaviour
 
     public void EndGame() {
         isGameActive = false;
+        highestScore = LoadScore();
+        if (score > highestScore) {
+            SaveScore();
+            highestScore = score;
+        }
+        highestScoreText.text = "Highest Score: " + highestScore;
         gameOverScreen.gameObject.SetActive(true);
     }
 
@@ -69,5 +77,14 @@ public class GameManager : MonoBehaviour
         }
         score += scoreIncrement;
         scoreText.text = "Score: " + score;
+    }
+
+    void SaveScore() {
+        PlayerPrefs.SetInt("Score", score);
+        PlayerPrefs.Save();
+    }
+
+    int LoadScore() {
+        return PlayerPrefs.GetInt("Score", 0);
     }
 }

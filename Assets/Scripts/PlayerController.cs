@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public bool isGameOver; // read by all other scripts
     public ParticleSystem explosionParticle;
     public AudioClip explosionSound;
+    public bool isGameOver;
 
     float yBoundary = 8;
-    float startForce = 5;
     [SerializeField] float upForce;
     Rigidbody playerRb;
     AudioSource playerAudio;
+    GameManager gameManager;
 
     void Start()
     {
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerAudio = GetComponent<AudioSource>();
         playerRb = GetComponent<Rigidbody>();
-        // a small bump at the start
-        playerRb.AddForce(Vector3.up * startForce);
     }
 
     void Update()
@@ -47,6 +46,8 @@ public class PlayerController : MonoBehaviour
             // stop bird flapping animation
             Animator anim = gameObject.transform.GetChild(0).gameObject.GetComponent<Animator>();
             anim.enabled = false;
+
+            gameManager.EndGame();
         };
     }
 }

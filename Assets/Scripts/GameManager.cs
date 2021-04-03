@@ -1,25 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 
-public class SpawnManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public GameObject obstaclePrefab;
+    public bool isGameActive;
+
+    // UI
+    public TextMeshProUGUI scoreText;
+    public GameObject gameOverScreen; // gameOverText and restartButton
+    public GameObject titleScreen; // titleText and startButton
+
     float spawnDelay = 1;
-    float spawnInterval = 1;
+    float spawnInterval = 1.5f;
     float xSpawnPos = 20;
     float zSpawnPos = -2;
     [SerializeField] float ySpawnMin;
     [SerializeField] float ySpawnMax;
-    PlayerController playerController;
 
-    void Start() {
+    int score;
+    int scoreIncrement = 100; // 100 points for each second survived
+
+    public void StartGame() {
+        isGameActive = true;
+        titleScreen.SetActive(false);
+        scoreText.gameObject.SetActive(true);
+        GameObject.Find("Player").GetComponent<Rigidbody>().useGravity = true;
         InvokeRepeating("SpawnObject", spawnDelay, spawnInterval);
-        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        InvokeRepeating("UpdateScore", 0, 1);
+    }
+
+    public void RestartGame() {
+        // reload the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void EndGame() {
+        isGameActive = false;
+        gameOverScreen.gameObject.SetActive(true);
     }
 
     void SpawnObject() {
-        if (playerController.isGameOver) {
+        if (!isGameActive) {
             return;
         }
         float ySpawnPos = Random.Range(ySpawnMin, ySpawnMax);
@@ -35,5 +61,13 @@ public class SpawnManager : MonoBehaviour
         }
         Vector3 spawnPos = new Vector3(xSpawnPos, ySpawnPos, zSpawnPos);
         Instantiate(obstaclePrefab, spawnPos, obstaclePrefab.transform.rotation);
+    }
+
+    void UpdateScore() {
+        if (!isGameActive) {
+            return;
+        }
+        score += scoreIncrement;
+        scoreText.text = "Score: " + score;
     }
 }

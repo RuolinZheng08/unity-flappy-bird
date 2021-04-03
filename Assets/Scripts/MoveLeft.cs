@@ -7,15 +7,17 @@ public class MoveLeft : MonoBehaviour
     [SerializeField] float speed;
     float leftBound = -55;
     PlayerController playerController;
+    GameManager gameManager;
 
     void Start()
     {
         playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     void Update()
     {
-        if (playerController.isGameOver) {
+        if (!gameManager.isGameActive || playerController.isGameOver) {
             return;
         }
         transform.Translate(Vector3.left * speed * Time.deltaTime);
